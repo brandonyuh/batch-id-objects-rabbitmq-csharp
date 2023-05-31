@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "yPY/gCifwoCIW/IMA4LhC4lMf24qjFHKT9jUTqgf91Ww0t+JWxuE43WzRA1PeWlLcIxY0Qlii8AVzcxjd1Pfog==",
+  "dgSpecHash": "DSd296pP+4glf67jvVamUsLNbJQhPiqWlZC6AkY4/Whl5O17o59jbftBIWlV6SJItqtTrJoVStcRpN0rx/ii0A==",
   "success": true,
   "projectFilePath": "C:\\github\\batch-id-objects-rabbitmq-csharp\\ObjectIDServer\\ObjectIDServer.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\brand\\.nuget\\packages\\rabbitmq.client\\6.5.0\\rabbitmq.client.6.5.0.nupkg.sha512",
+    "C:\\Users\\brand\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512",
+    "C:\\Users\\brand\\.nuget\\packages\\system.threading.channels\\7.0.0\\system.threading.channels.7.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
