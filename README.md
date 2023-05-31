@@ -1,0 +1,1 @@
+# batch-id-objects-rabbitmq-csharp
