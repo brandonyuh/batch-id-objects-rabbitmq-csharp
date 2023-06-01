@@ -1,10 +1,6 @@
 ﻿using System.Text;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using Emgu.CV;
-using Emgu.CV.Structure;
-using Emgu.CV.Util;
-using Emgu.CV.Dnn;
 
 var factory = new ConnectionFactory { HostName = "localhost" };
 using var connection = factory.CreateConnection();
@@ -36,10 +32,10 @@ consumer.Received += (model, ea) =>
     {
         byte[] imageBytes = ea.Body.ToArray();
         Guid myuuid = Guid.NewGuid();
-        string imagePath = $"img/{myuuid}.jpg";
+        string imagePath = $"temp/{myuuid}.jpg";
         File.WriteAllBytes(imagePath, imageBytes);
 
-        processedImagePath = DrawDetectionBoxes(imagePath);
+        processedImagePath = Detection.DrawBoxes(imagePath);
     }
     catch (Exception e)
     {
@@ -63,9 +59,4 @@ consumer.Received += (model, ea) =>
 Console.WriteLine(" Press [enter] to exit.");
 Console.ReadLine();
 
-static String DrawDetectionBoxes(string imagePath)
-{
-    Mat image = CvInvoke.Imread(imagePath);
 
-    return imagePath;
-}
