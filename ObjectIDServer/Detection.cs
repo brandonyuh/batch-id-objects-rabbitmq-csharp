@@ -9,8 +9,8 @@ public class Detection
     {
         // you can download better models here https://pjreddie.com/darknet/yolo/ 
         var net = Emgu.CV.Dnn.DnnInvoke.ReadNetFromDarknet(
-            "./detection/yolov2-tiny.cfg",
-            "./detection/yolov2-tiny.weights"
+            "./detection/yolov3-tiny.cfg",
+            "./detection/yolov3-tiny.weights"
         );
 
         var classLabels = File.ReadAllLines("./detection/coco.names");
