@@ -26,9 +26,11 @@ public class RpcClient : IDisposable
         {
             if (!callbackMapper.TryRemove(ea.BasicProperties.CorrelationId, out var tcs))
                 return;
-            var body = ea.Body.ToArray();
-            var response = Encoding.UTF8.GetString(body);
-            tcs.TrySetResult(response);
+            byte[] imageBytes = ea.Body.ToArray();
+            
+            string base64String = Convert.ToBase64String(imageBytes);
+
+            tcs.TrySetResult(base64String);
         };
 
         channel.BasicConsume(consumer: consumer, queue: replyQueueName, autoAck: true);
@@ -40,7 +42,9 @@ public class RpcClient : IDisposable
         var correlationId = Guid.NewGuid().ToString();
         props.CorrelationId = correlationId;
         props.ReplyTo = replyQueueName;
-        var messageBytes = Encoding.UTF8.GetBytes(message);
+
+        byte[] messageBytes = File.ReadAllBytes(message);
+
         var tcs = new TaskCompletionSource<string>();
         callbackMapper.TryAdd(correlationId, tcs);
 
@@ -66,21 +70,29 @@ public class Rpc
     public static async Task Main(string[] args)
     {
         Console.WriteLine("RPC Client");
-        for (int i = 0; i < 25; i++)
+
+        var files = from file in Directory.EnumerateFiles("./img") select file;
+        Console.WriteLine("Files: {0}", files.Count<string>().ToString());
+        Console.WriteLine("List of Files");
+        foreach (var file in files)
         {
-            InvokeAsync(i.ToString());
+            InvokeAsync(file);
         }
 
         Console.WriteLine(" Press [enter] to exit.");
         Console.ReadLine();
     }
 
-    private static async Task InvokeAsync(string n)
+    private static async Task InvokeAsync(string path)
     {
         using var rpcClient = new RpcClient();
 
-        Console.WriteLine(" [x] Requesting AddOne({0})", n);
-        var response = await rpcClient.CallAsync(n);
-        Console.WriteLine(" [.] Got '{0}'", response);
+        Console.WriteLine(" [x] Requesting Detection on {0}", path);
+        string fileName = Path.GetFileName(path);
+        string imagePath = $"out/{fileName}";
+
+        string response = await rpcClient.CallAsync(path);
+        byte[] imageBytes = Convert.FromBase64String(response);
+        File.WriteAllBytes(imagePath, imageBytes);
     }
 }
