@@ -89,10 +89,11 @@ public class Rpc
 
         Console.WriteLine(" [x] Requesting Detection on {0}", path);
         string fileName = Path.GetFileName(path);
-        string imagePath = $"out/{fileName}";
+        string imagePath = $"results/{fileName}";
 
         string response = await rpcClient.CallAsync(path);
         byte[] imageBytes = Convert.FromBase64String(response);
         File.WriteAllBytes(imagePath, imageBytes);
+        Console.WriteLine(" [.] Check results folder for '{0}'", imagePath);
     }
 }
