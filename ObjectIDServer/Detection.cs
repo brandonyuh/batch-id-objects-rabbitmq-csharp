@@ -7,7 +7,7 @@ public class Detection
 {
     public static String DrawBoxes(string imagePath)
     {
-        //Console.WriteLine("Detecting objects in image..." + imagePath);
+        // you can download better models here https://pjreddie.com/darknet/yolo/ 
         var net = Emgu.CV.Dnn.DnnInvoke.ReadNetFromDarknet(
             "./detection/yolov2-tiny.cfg",
             "./detection/yolov2-tiny.weights"
@@ -104,7 +104,6 @@ public class Detection
         //restore the image to its original size
         CvInvoke.Resize(frameOut, frameOut, new System.Drawing.Size(0, 0), 4, 4);
         string newPath = "out/" + imagePath;
-        //Console.WriteLine("Saving image to " + newPath);
         CvInvoke.Imwrite(newPath, frameOut);
         return newPath;
     }
